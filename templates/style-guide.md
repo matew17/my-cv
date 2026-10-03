@@ -3,11 +3,15 @@
 - Page size: Letter
 - Maximum length: 2 pages
 - Layout: single column
-- Body font: Arial-compatible sans serif, approximately 9.5-10 pt
-- Name: approximately 17-19 pt bold
-- Headline: approximately 10.5-11.5 pt bold
-- Section headings: approximately 10-11 pt bold, uppercase
-- Margins: approximately 0.55-0.65 inches
+- Body and bullets: Arial, 11 pt
+- Supporting text (contact details, skills, education): 10.5 pt
+- Name: 22 pt bold
+- Headline: 11.5 pt bold
+- Section headings: 12 pt bold, uppercase
+- Employer and engagement headings: 11 pt bold
+- Line spacing: 1.05, with visible spacing between bullets and sections
+- Margins: 0.6 inches top/bottom, 0.65 inches left/right
+- Prioritize and shorten content to fit two pages; do not shrink body text to fit
 - No tables for layout
 - No sidebars
 - No text boxes

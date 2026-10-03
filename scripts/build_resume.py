@@ -9,7 +9,6 @@ import tempfile
 from pathlib import Path
 
 from docx import Document
-from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt
@@ -20,6 +19,10 @@ OUTPUT = ROOT / "output"
 OUTPUT.mkdir(exist_ok=True)
 DOCX_PATH = OUTPUT / "Mateo_Castano_Staff_Agentic_AI.docx"
 PDF_PATH = OUTPUT / "Mateo_Castano_Staff_Agentic_AI.pdf"
+
+BODY_SIZE = 11
+SUPPORTING_SIZE = 10.5
+LINE_SPACING = 1.05
 
 
 def font_run(run, size: float, bold: bool = False, italic: bool = False):
@@ -42,7 +45,7 @@ def keep_lines(paragraph):
         pPr.append(OxmlElement("w:keepLines"))
 
 
-def format_paragraph(p, before=0, after=0, line=1.0):
+def format_paragraph(p, before=0, after=0, line=LINE_SPACING):
     pf = p.paragraph_format
     pf.space_before = Pt(before)
     pf.space_after = Pt(after)
@@ -112,32 +115,43 @@ def build_docx(require_pdf=False):
     lines = MASTER.read_text(encoding="utf-8").splitlines()
     doc = Document()
     sec = doc.sections[0]
-    sec.top_margin = Inches(0.48)
-    sec.bottom_margin = Inches(0.48)
-    sec.left_margin = Inches(0.58)
-    sec.right_margin = Inches(0.58)
+    sec.page_width = Inches(8.5)
+    sec.page_height = Inches(11)
+    sec.top_margin = Inches(0.6)
+    sec.bottom_margin = Inches(0.6)
+    sec.left_margin = Inches(0.65)
+    sec.right_margin = Inches(0.65)
     sec.header_distance = Inches(0.2)
     sec.footer_distance = Inches(0.2)
 
     normal = doc.styles["Normal"]
     normal.font.name = "Arial"
     normal._element.rPr.rFonts.set(qn("w:eastAsia"), "Arial")
-    normal.font.size = Pt(9.0)
+    normal.font.size = Pt(BODY_SIZE)
     normal.paragraph_format.space_after = Pt(0)
-    normal.paragraph_format.line_spacing = 1.0
+    normal.paragraph_format.line_spacing = LINE_SPACING
 
     first_nonempty_after_h1 = True
     pending_para: list[str] = []
+    pending_page_break = False
+
+    def add_paragraph():
+        nonlocal pending_page_break
+        paragraph = doc.add_paragraph()
+        if pending_page_break:
+            paragraph.paragraph_format.page_break_before = True
+            pending_page_break = False
+        return paragraph
 
     def flush_paragraph():
         nonlocal pending_para
         if not pending_para:
             return
         text = " ".join(x.strip() for x in pending_para).strip()
-        p = doc.add_paragraph()
-        format_paragraph(p, after=1.6, line=1.02)
+        p = add_paragraph()
+        format_paragraph(p, after=4)
         keep_lines(p)
-        add_inline_markdown(p, text, 9.2)
+        add_inline_markdown(p, text, BODY_SIZE)
         pending_para = []
 
     for raw in lines:
@@ -150,80 +164,84 @@ def build_docx(require_pdf=False):
 
         if stripped == "<!-- PAGEBREAK -->":
             flush_paragraph()
-            doc.add_page_break()
+            pending_page_break = True
             continue
 
         if stripped.startswith("# "):
             flush_paragraph()
-            p = doc.add_paragraph()
-            format_paragraph(p, after=0.4)
+            p = add_paragraph()
+            format_paragraph(p, after=4)
             r = p.add_run(stripped[2:].upper())
-            font_run(r, 18.0, bold=True)
+            font_run(r, 22, bold=True)
             first_nonempty_after_h1 = True
             continue
 
         if stripped.startswith("## "):
             flush_paragraph()
-            p = doc.add_paragraph()
-            format_paragraph(p, before=4.2, after=2.2)
+            p = add_paragraph()
+            format_paragraph(p, before=9, after=4)
             keep_with_next(p)
             r = p.add_run(stripped[3:].upper())
-            font_run(r, 10.2, bold=True)
+            font_run(r, 12, bold=True)
             continue
 
         if stripped.startswith("### "):
             flush_paragraph()
-            p = doc.add_paragraph()
-            format_paragraph(p, before=3.5, after=0.6)
+            p = add_paragraph()
+            format_paragraph(p, before=7, after=3)
             keep_with_next(p)
-            add_inline_markdown(p, stripped[4:], 9.6, base_bold=True)
+            add_inline_markdown(p, stripped[4:], BODY_SIZE, base_bold=True)
             continue
 
         if stripped.startswith("#### "):
             flush_paragraph()
-            p = doc.add_paragraph()
-            format_paragraph(p, before=2.4, after=0.4)
+            p = add_paragraph()
+            format_paragraph(p, before=6, after=3)
             keep_with_next(p)
-            add_inline_markdown(p, stripped[5:], 9.5, base_bold=True)
+            add_inline_markdown(p, stripped[5:], BODY_SIZE, base_bold=True)
             continue
 
         if stripped.startswith("- "):
             flush_paragraph()
-            p = doc.add_paragraph()
-            format_paragraph(p, after=0.8)
+            p = add_paragraph()
+            format_paragraph(p, after=3)
             keep_lines(p)
             pf = p.paragraph_format
-            pf.left_indent = Inches(0.16)
-            pf.first_line_indent = Inches(-0.12)
+            pf.left_indent = Inches(0.18)
+            pf.first_line_indent = Inches(-0.14)
             r = p.add_run("• ")
-            font_run(r, 9.0)
-            add_inline_markdown(p, stripped[2:], 9.0)
+            font_run(r, BODY_SIZE)
+            add_inline_markdown(p, stripped[2:], BODY_SIZE)
             continue
 
         # Headline directly after H1.
         if first_nonempty_after_h1 and stripped.startswith("**") and stripped.endswith("**"):
             flush_paragraph()
-            p = doc.add_paragraph()
-            format_paragraph(p, after=1.2)
+            p = add_paragraph()
+            format_paragraph(p, after=4)
+            keep_with_next(p)
             r = p.add_run(stripped[2:-2])
-            font_run(r, 10.6, bold=True)
+            font_run(r, 11.5, bold=True)
             first_nonempty_after_h1 = False
             continue
 
         # Contact line follows the headline and is intentionally compact.
         if not pending_para and ("@" in stripped and "LinkedIn" in stripped and "GitHub" in stripped):
             flush_paragraph()
-            p = doc.add_paragraph()
-            format_paragraph(p, after=2.6)
-            add_inline_markdown(p, stripped, 8.5)
+            p = add_paragraph()
+            format_paragraph(p, after=5)
+            add_inline_markdown(p, stripped, SUPPORTING_SIZE)
             continue
 
         # Compact bold-label lines used for expertise, skills, education, and earlier experience.
         if stripped.startswith("**") and "**" in stripped[2:]:
             flush_paragraph()
-            p = doc.add_paragraph()
-            format_paragraph(p, after=0.8)
-            add_inline_markdown(p, stripped, 8.9)
+            p = add_paragraph()
+            format_paragraph(p, after=3)
+            keep_lines(p)
+            if stripped.endswith("**") and stripped.count("**") == 2:
+                keep_with_next(p)
+            add_inline_markdown(p, stripped, SUPPORTING_SIZE)
             continue
 
         pending_para.append(stripped)
