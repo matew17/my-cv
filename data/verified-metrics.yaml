@@ -1,0 +1,36 @@
+payworks:
+  legacy_screens:
+    value: "300+"
+    verified: true
+  released_screens:
+    value: 8
+    verified: true
+  additional_screens_pending_deployment:
+    value: 20
+    verified: true
+  delivery_velocity:
+    value: "approximately 1 migrated screen per engineer every 1-2 sprints"
+    verified: true
+  initial_engagement:
+    value: "5-week Jumpstart"
+    verified: true
+  engagement_extension:
+    value: "extended through December 2026"
+    verified: true
+  team:
+    developers: 6
+    qa_client_side: 1
+    verified: true
+
+trello:
+  card_repeater_efficiency:
+    from: "65%"
+    to: "90%"
+    verified: true
+  user_limits_revenue_impact:
+    value: "40%+"
+    verified: true
+somer_clinic:
+  internal_systems_delivered:
+    value: "15+"
+    verified: true

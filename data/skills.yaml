@@ -1,0 +1,57 @@
+agentic_ai:
+  - Claude Code
+  - Agent orchestration
+  - Agentic workflows
+  - AI-assisted SDLC
+  - Human-in-the-loop systems
+  - Model Context Protocol (MCP)
+  - Agent skills
+  - Hooks
+  - Commands
+  - Workflows
+  - Worktrees
+  - Guardrails
+  - Security controls
+  - Deterministic execution patterns
+software_architecture:
+  - Software architecture
+  - Legacy modernization
+  - Application modernization
+  - Business-rule extraction
+  - Domain-driven design
+  - Micro Frontends
+  - Module Federation
+  - Backend for Frontend (BFF)
+  - API design collaboration
+engineering_quality:
+  - Test-Driven Development (TDD)
+  - xUnit
+  - Vitest
+  - Bruno
+  - Playwright
+  - API testing
+  - End-to-end testing
+platforms_and_frameworks:
+  - .NET 10
+  - C#
+  - Vue 3
+  - React
+  - Angular
+  - AngularJS
+  - Node.js
+  - TypeScript
+  - JavaScript
+  - GraphQL
+  - Relay
+  - Apollo
+  - REST APIs
+data:
+  - SQL Server
+  - MongoDB
+leadership:
+  - Technical leadership
+  - Architecture governance
+  - Code reviews
+  - Stakeholder collaboration
+  - Delivery planning
+  - Team enablement

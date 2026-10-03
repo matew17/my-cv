@@ -1,0 +1,20 @@
+name: Mateo Castaño
+location: Medellin, Colombia
+phone: "+57 312 267 3240"
+email: matew17@gmail.com
+linkedin: "https://www.linkedin.com/in/mateo-castano-g/"
+github: "https://github.com/matew17"
+headline: "Staff Software Engineer | Agentic AI | AI-Native SDLC | Software Modernization"
+positioning:
+  primary: "Staff Software Engineer - Agentic AI / AI-Native Engineering"
+  adjacent:
+    - "Staff Applied AI Engineer"
+    - "AI Platform Engineer"
+    - "Agentic Systems Engineer"
+    - "Staff Software Engineer - Developer Productivity"
+    - "Staff Software Engineer - Software Modernization"
+languages:
+  - language: Spanish
+    proficiency: Native
+  - language: English
+    proficiency: Professional working proficiency

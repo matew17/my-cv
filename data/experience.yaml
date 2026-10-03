@@ -1,0 +1,143 @@
+- company: SoftServe
+  location: Medellin, Colombia
+  employment_start: 2023-04
+  employment_end: present
+  official_title: Front-End - Lead Software Engineer - R&D Team
+  resume_title: Lead Software Engineer - R&D Team
+  notes:
+  - Periods between client engagements included reserve/bench time used for research and study.
+  engagements:
+  - client: Payworks
+    start: 2026-04
+    end: present
+    label: Agentic SDLC & Legacy Modernization
+    role_context: Hands-on technical lead with Staff-level engineering responsibilities
+    team:
+      developers_led: 6
+      client_qa_and_automation: true
+      client_counterparts:
+      - Product Manager
+      - Architect
+    source_stack:
+    - Classic ASP
+    - VBScript
+    - Visual Basic
+    - SQL Server
+    target_stack:
+    - .NET 10
+    - Vue 3
+    testing:
+      backend: xUnit
+      frontend: Vitest
+      api: Bruno
+      e2e: Playwright
+    architecture:
+      primary_tool: Claude Code
+      designed_from_scratch_by_user: true
+      components:
+      - Skills
+      - Agents
+      - Hooks
+      - Commands
+      - Workflows
+      - MCP integrations
+      - Worktrees
+      - Guardrails
+      - Security controls
+      - Deterministic execution patterns
+    workflow:
+    - Analyze legacy code
+    - Extract business rules
+    - Extract constraints and expected behavior
+    - Create tests before implementation
+    - Implement modernized application code
+    - Run backend and frontend unit tests
+    - Run API validation
+    - Run end-to-end tests
+    - Human review, business clarification, PR review, and approval
+    outcomes:
+    - 8 migrated screens released to production
+    - 20 additional migrated screens pending deployment
+    - Legacy estate contains 300+ screens plus additional applications and repositories
+    - Approximately 1 migrated screen per engineer every 1-2 sprints
+    - Initial 5-week Jumpstart was extended through December 2026 following successful results
+  - client: Atlassian
+    project: c360
+    role: Staff Software Engineer
+    start: 2025-12
+    end: 2026-04
+    accomplishments:
+    - Led frontend architecture for an enterprise sales platform used by Atlassian stakeholders to manage clients, subscriptions,
+      and billing data.
+    - Designed and implemented a React 18, TypeScript, and GraphQL solution integrated with a Node.js BFF for partially migrated
+      backend services.
+    - Accelerated production readiness through standardized frontend patterns, improved code quality, and delivery of the
+      Footprints client-insights page.
+    - Refactored circular dependencies and improved build performance through parallelized tasks.
+    engagement_context: Focused engagement to bring the c360 enterprise sales platform to production.
+  - client: Atlassian
+    project: Elevate
+    role: Staff Software Engineer / Frontend Architect
+    start: 2025-03
+    end: 2025-12
+    accomplishments:
+    - Served as Frontend Architect for an enterprise HR suite supporting 360-degree reviews, performance cycles, goal tracking,
+      and promotion workflows.
+    - Established scalable frontend architecture and domain-driven design principles, including accessibility, performance
+      budgets, and separation of concerns.
+  - client: Trello.com
+    role: Lead Frontend Engineer
+    start: 2023-12
+    end: 2024-12
+    accomplishments:
+    - Modernized the board menu from Backbone to React, improving design, accessibility, and maintainability.
+    - Redesigned Card Repeater processing from a time-based mechanism to a work queue in Node.js, improving card-creation
+      efficiency from 65% to 90%.
+    - Contributed to the User Limits initiative by redesigning subscription flows and implementing advanced billing logic
+      associated with 40%+ revenue growth.
+  - client: SailPoint
+    role: Lead Frontend Engineer
+    start: 2023-04
+    end: 2023-12
+    accomplishments:
+    - Led a team of 8 frontend developers migrating a component library from AngularJS to modern Angular while owning code
+      quality, user experience, visual integrity, code reviews, and peer testing.
+- company: EPAM
+  location: Medellin, Colombia
+  employment_start: 2021-09
+  employment_end: 2023-03
+  title: Lead Software Engineer
+  accomplishments:
+  - Led the design and implementation of a Micro Frontends architecture using Webpack 5 Module Federation and Angular, enabling
+    independent team deployments and scalable frontend ownership.
+  - Built and maintained a shared component library to standardize design patterns and behavior across micro frontend teams.
+  - Acted as Technical Leader for an enhancements team serving Kantar across AngularJS and Angular 13 applications.
+- company: Globant
+  location: Medellin, Colombia
+  employment_start: 2018-02
+  employment_end: 2021-06
+  title: Web UI Developer and Technical Leader
+  accomplishments:
+  - Led Disney Cruise Line web enhancement initiatives and multiple delivery teams of up to 10 people across UI, service,
+    and QA roles.
+  - Defined SPA architecture for a new Angular reservation-modification application and served as the primary Angular technical
+    reference for the team.
+  - Led delivery across Angular, Polymer Web Components, and AngularJS projects in direct collaboration with Disney stakeholders.
+- company: Yuxi Global
+  location: Medellin, Colombia
+  employment_start: 2017-02
+  employment_end: 2018-02
+  title: Front End Developer
+  accomplishments:
+  - Delivered production features across AngularJS and Angular client projects while expanding direct English-language client
+    collaboration.
+- company: Somer Clinic
+  location: Rionegro, Colombia
+  employment_start: 2015-09
+  employment_end: 2017-02
+  title: Project Engineer
+  accomplishments:
+  - Worked as a software developer specializing in PHP and SQL Server.
+  - Served as Project Engineer and Scrum Master for a team of 7, delivering 15+ internal systems.
+  - Led the transition from legacy Visual Basic desktop applications to web-based solutions using PHP and jQuery, driving
+    adoption of modern web technologies across the team.
