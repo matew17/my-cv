@@ -16,6 +16,9 @@ Repository: `https://github.com/matew17/my-cv.git`
 - `targets/` - reusable positioning notes
 - `jobs/` - job descriptions for targeted variants
 - `prompts/` - reusable tailoring and validation prompts
+- `linkedin/` - LinkedIn drafts, source/change notes, and photo/banner review
+- `.opencode/` - LinkedIn sync/review/publish commands and browser workflow skill
+- `opencode.json` - project-local Playwright MCP configuration
 - `scripts/build_resume.py` - Markdown -> ATS-safe DOCX/PDF build
 - `scripts/validate_data.py` - source-data validation
 
@@ -139,6 +142,36 @@ and hands-on product delivery. Improve wording and prioritization only.
 Do not add unsupported technologies, dates, metrics, titles, or outcomes.
 Keep the result to two ATS-safe pages. Run make validate and make build.
 ```
+
+## Keep LinkedIn aligned with the resume
+
+Quit and restart OpenCode from the repository root to load the project command, then run:
+
+```text
+/linkedin-sync
+/linkedin-review
+/linkedin-publish
+```
+
+`/linkedin-sync` refreshes the draft from verified facts. `/linkedin-review` reads the
+live profile and automatically retrieves/captures its photo and banner. `/linkedin-publish`
+applies and verifies the draft headline, About, and matched employer descriptions.
+Add optional direction such as `/linkedin-publish Update only the headline and About`.
+
+Install the pinned local browser tools and sign in to the dedicated Chrome session:
+
+```bash
+npm ci
+npm run linkedin:check
+npm run linkedin:login
+```
+
+Then restart OpenCode from this project and run `/linkedin-review`. No manual profile
+screenshots are required. Browser sessions and captures are ignored by Git.
+
+The connector is configured; live LinkedIn operations require login and verification. See
+[linkedin/README.md](linkedin/README.md) for usage and
+[linkedin/automation-research.md](linkedin/automation-research.md) for findings and options.
 
 ## Tailoring for a job
 

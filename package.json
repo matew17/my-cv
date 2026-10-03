@@ -1,0 +1,13 @@
+{
+  "name": "my-cv-linkedin-tools",
+  "private": true,
+  "scripts": {
+    "linkedin:check": "node scripts/linkedin_session.mjs check",
+    "linkedin:status": "node scripts/linkedin_session.mjs status",
+    "linkedin:login": "node scripts/linkedin_session.mjs login"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "1.32.0",
+    "@playwright/mcp": "0.0.83"
+  }
+}
