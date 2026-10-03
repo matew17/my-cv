@@ -25,15 +25,12 @@ software_architecture:
   - API design collaboration
 engineering_quality:
   - Test-Driven Development (TDD)
-  - xUnit
   - Vitest
   - Bruno
   - Playwright
   - API testing
   - End-to-end testing
 platforms_and_frameworks:
-  - .NET 10
-  - C#
   - Vue 3
   - React
   - Angular
@@ -55,3 +52,11 @@ leadership:
   - Stakeholder collaboration
   - Delivery planning
   - Team enablement
+project_specific_exposure:
+  technologies:
+    - C#
+    - .NET 10
+    - xUnit
+  context: Recent Payworks modernization engagement
+  proficiency_note: Mateo confirmed limited proficiency; experience is recent and project-specific, not a core specialization.
+  resume_guidance: Mention in Payworks project context where relevant, but exclude from the general technical skills list. Do not imply deep proficiency.

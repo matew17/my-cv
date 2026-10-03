@@ -3,12 +3,12 @@
 - Page size: Letter
 - Maximum length: 2 pages
 - Layout: single column
-- Body and bullets: Arial, 11 pt
-- Supporting text (contact details, skills, education): 10.5 pt
+- Body and bullets: Arial, 11.5 pt
+- Supporting text (contact details, skills, education): 11 pt
 - Name: 22 pt bold
-- Headline: 11.5 pt bold
-- Section headings: 12 pt bold, uppercase
-- Employer and engagement headings: 11 pt bold
+- Headline: 12 pt bold
+- Section headings: 12.5 pt bold, uppercase
+- Employer and engagement headings: 11.5 pt bold
 - Line spacing: 1.05, with visible spacing between bullets and sections
 - Margins: 0.6 inches top/bottom, 0.65 inches left/right
 - Prioritize and shorten content to fit two pages; do not shrink body text to fit
@@ -20,5 +20,7 @@
 - No photo
 - Standard bullet characters only
 - Contact links written as parseable text
+- Contact block uses two lines: location/phone/email, then visible LinkedIn/GitHub URLs
+- Email and profile URLs are clickable, dark blue, and underlined at the supporting-text size
 - Keep dates and roles in normal paragraph flow
 - Use PDF and DOCX outputs from the same source to prevent content drift

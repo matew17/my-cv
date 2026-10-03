@@ -2,7 +2,9 @@
 
 **Staff Software Engineer | Agentic AI | AI-Native SDLC | Software Modernization**
 
-Medellin, Colombia | +57 312 267 3240 | matew17@gmail.com | LinkedIn: linkedin.com/in/mateo-castano-g | GitHub: github.com/matew17
+Medellin, Colombia | +57 312 267 3240 | [matew17@gmail.com](mailto:matew17@gmail.com)
+
+[linkedin.com/in/mateo-castano-g](https://www.linkedin.com/in/mateo-castano-g/) | [github.com/matew17](https://github.com/matew17)
 
 ## PROFESSIONAL SUMMARY
 
@@ -59,11 +61,11 @@ Staff-level software engineer with 10+ years building and modernizing production
 
 ## TECHNICAL SKILLS
 
-**Languages & Frameworks:** C#, .NET 10, TypeScript, JavaScript, Vue 3, React, Angular, AngularJS, Node.js
+**Languages & Frameworks:** TypeScript, JavaScript, Vue 3, React, Angular, AngularJS, Node.js
 
 **Integration & Data:** GraphQL, REST APIs, SQL Server, MongoDB
 
-**Testing:** TDD, xUnit, Vitest, Bruno, Playwright
+**Testing:** TDD, Vitest, Bruno, Playwright
 
 ## EDUCATION
 

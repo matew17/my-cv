@@ -9,9 +9,11 @@ import tempfile
 from pathlib import Path
 
 from docx import Document
+from docx.opc.constants import RELATIONSHIP_TYPE as RT
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Inches, Pt
+from docx.shared import Inches, Pt, RGBColor
+from docx.text.run import Run
 
 ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "master" / "resume.md"
@@ -20,8 +22,8 @@ OUTPUT.mkdir(exist_ok=True)
 DOCX_PATH = OUTPUT / "Mateo_Castano_Staff_Agentic_AI.docx"
 PDF_PATH = OUTPUT / "Mateo_Castano_Staff_Agentic_AI.pdf"
 
-BODY_SIZE = 11
-SUPPORTING_SIZE = 10.5
+BODY_SIZE = 11.5
+SUPPORTING_SIZE = 11
 LINE_SPACING = 1.05
 
 
@@ -62,6 +64,26 @@ def add_inline_markdown(p, text: str, size: float, base_bold: bool = False):
         content = part[2:-2] if is_bold else part
         r = p.add_run(content)
         font_run(r, size, bold=(base_bold or is_bold))
+
+
+def add_contact_links(paragraph, text):
+    """Render Markdown contact links as visible, clickable text in normal flow."""
+    position = 0
+    for match in re.finditer(r"\[([^\]]+)\]\(([^)]+)\)", text):
+        font_run(paragraph.add_run(text[position:match.start()]), SUPPORTING_SIZE)
+        label, target = match.groups()
+        hyperlink = OxmlElement("w:hyperlink")
+        hyperlink.set(qn("r:id"), paragraph.part.relate_to(target, RT.HYPERLINK, is_external=True))
+        element = OxmlElement("w:r")
+        hyperlink.append(element)
+        run = Run(element, paragraph)
+        run.text = label
+        font_run(run, SUPPORTING_SIZE)
+        run.font.color.rgb = RGBColor.from_string("24527A")
+        run.font.underline = True
+        paragraph._p.append(hyperlink)
+        position = match.end()
+    font_run(paragraph.add_run(text[position:]), SUPPORTING_SIZE)
 
 
 def find_libreoffice():
@@ -182,7 +204,7 @@ def build_docx(require_pdf=False):
             format_paragraph(p, before=9, after=4)
             keep_with_next(p)
             r = p.add_run(stripped[3:].upper())
-            font_run(r, 12, bold=True)
+            font_run(r, 12.5, bold=True)
             continue
 
         if stripped.startswith("### "):
@@ -221,16 +243,20 @@ def build_docx(require_pdf=False):
             format_paragraph(p, after=4)
             keep_with_next(p)
             r = p.add_run(stripped[2:-2])
-            font_run(r, 11.5, bold=True)
+            font_run(r, 12, bold=True)
             first_nonempty_after_h1 = False
             continue
 
-        # Contact line follows the headline and is intentionally compact.
-        if not pending_para and ("@" in stripped and "LinkedIn" in stripped and "GitHub" in stripped):
+        # Separate contact details and profile URLs into two readable lines.
+        if not pending_para and ("@" in stripped or ("linkedin.com/" in stripped and "github.com/" in stripped)):
             flush_paragraph()
             p = add_paragraph()
-            format_paragraph(p, after=5)
-            add_inline_markdown(p, stripped, SUPPORTING_SIZE)
+            is_contact_details = "@" in stripped
+            format_paragraph(p, after=2 if is_contact_details else 5)
+            keep_lines(p)
+            if is_contact_details:
+                keep_with_next(p)
+            add_contact_links(p, stripped)
             continue
 
         # Compact bold-label lines used for expertise, skills, education, and earlier experience.
