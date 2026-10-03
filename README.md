@@ -26,71 +26,94 @@ The default build generates:
 - `output/Mateo_Castano_Staff_Agentic_AI.docx`
 - `output/Mateo_Castano_Staff_Agentic_AI.pdf` when LibreOffice is available
 
-Generated output files are ignored by Git.
+New generated output files are ignored by Git. Artifacts already tracked in the initial repository remain tracked until explicitly removed from Git's index.
 
-## First-time setup in the existing empty clone
+## Quick start (macOS)
 
-The intended local repository is already:
+### 1. Install uv
+
+If you use [Homebrew](https://brew.sh/):
+
+```bash
+brew install uv
+```
+
+Already installed? Check with `uv --version`. For other installation methods and operating systems, see the [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/).
+
+### 2. Open the repository
+
+If you already have this project, open a terminal in its folder. Otherwise:
 
 ```bash
 git clone https://github.com/matew17/my-cv.git
 cd my-cv
 ```
 
-If the clone already exists, copy the contents of this project into that repository root. Then verify the remote:
+Run all subsequent commands from the repository root, where `Makefile` lives.
+
+### 3. Install the Python environment
 
 ```bash
-git remote -v
+uv sync
 ```
 
-If `origin` is missing:
+uv downloads Python 3.12 if needed, creates `.venv`, and installs the versions recorded in `uv.lock`. Dependencies are declared in `pyproject.toml`. You do not need to activate the environment or run pip manually.
 
-```bash
-git remote add origin https://github.com/matew17/my-cv.git
-```
-
-If `origin` points somewhere else:
-
-```bash
-git remote set-url origin https://github.com/matew17/my-cv.git
-```
-
-Create a virtual environment and install the current build dependencies:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python3 -m pip install -r requirements.txt
-```
-
-Validate the source data:
-
-```bash
-make validate
-```
-
-Build the resume:
+### 4. Build the resume
 
 ```bash
 make build
 ```
 
-The generated files will appear under `output/`.
+This validates the source data first, then creates the DOCX in `output/`. It also creates the PDF if LibreOffice is installed; otherwise it prints a clear skip message.
 
-> Dependency management intentionally remains on `requirements.txt` / pip for this version. Mateo plans to migrate the project to `uv` separately.
+## Generate and verify the PDF
 
-## Initial Git commit
-
-After validating and building locally:
+PDF conversion requires LibreOffice, installed separately from Python dependencies:
 
 ```bash
-git status
-git add .
-git commit -m "Initialize version-controlled resume project"
-git push -u origin main
+brew install --cask libreoffice
+make pdf
 ```
 
-If the default branch is not `main`, use the branch configured in the GitHub repository.
+The builder checks both your command path and the standard macOS application location, so no manual PATH change is needed for a normal Homebrew installation.
+
+`make pdf` validates the data, rebuilds the DOCX, and **fails if LibreOffice is missing or conversion fails**. Conversion uses a temporary directory and an isolated LibreOffice profile, checks for a nonempty PDF with a PDF header, and only then publishes the result. A stale PDF is removed before conversion so it cannot be mistaken for a fresh build.
+
+Open the result on macOS:
+
+```bash
+open output/Mateo_Castano_Staff_Agentic_AI.pdf
+```
+
+Before sending it, check that:
+
+- It contains at most two pages, with no extra blank page.
+- Headings, bullets, and contact details are readable and not clipped.
+- Page breaks are sensible and all expected sections are present.
+- You can select/copy text, including the contact details.
+
+Successful conversion does not enforce the two-page limit or prove factual accuracy. If conversion fails, read the terminal error, check that LibreOffice can open the DOCX, and rerun `make pdf` after addressing the issue.
+
+## Everyday workflow
+
+```bash
+make validate  # Check dates and metric verification flags
+make build     # Validate and generate DOCX; also PDF when LibreOffice is installed
+make pdf       # Validate and build, requiring successful PDF generation
+make clean     # Remove generated DOCX/PDF files and _build/
+```
+
+The builder reads `master/resume.md`, not the YAML data directly. After changing facts under `data/`, update the Markdown narrative as needed. The validator checks dates and verification flags; it does not compare every resume claim against the source facts.
+
+If `make` is unavailable, the equivalent commands are:
+
+```bash
+uv run python scripts/validate_data.py
+uv run python scripts/build_resume.py --require-pdf
+```
+
+Run validation first when invoking the scripts directly. Commit `pyproject.toml` and `uv.lock` together when changing dependencies.
 
 ## Using Codex / Claude Code in this repository
 

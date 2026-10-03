@@ -1,0 +1,12 @@
+[project]
+name = "my-cv"
+version = "0.1.0"
+description = "Verified resume data and ATS-safe resume generation"
+requires-python = ">=3.10"
+dependencies = [
+    "python-docx>=1.1.0,<2",
+    "PyYAML>=6.0,<7",
+]
+
+[tool.uv]
+package = false

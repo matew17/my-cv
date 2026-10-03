@@ -192,4 +192,4 @@ If a generated DOCX/PDF is being delivered externally, visually inspect the fina
 
 ## 11. Dependency-management note
 
-The repository currently uses `requirements.txt` / pip for the initial build tooling. Mateo plans to migrate it to `uv` himself later. Do not perform that migration unless explicitly requested.
+The repository uses `uv` with dependencies declared in `pyproject.toml` and locked in `uv.lock`. Run `uv sync` for setup; Makefile commands use `uv run` without requiring virtual-environment activation. Commit dependency changes with the updated lockfile. Run `make pdf` when PDF generation is required; it fails if LibreOffice is unavailable or conversion fails.

@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
 import re
 import shutil
 import subprocess
+import tempfile
 from pathlib import Path
 
 from docx import Document
@@ -59,7 +61,54 @@ def add_inline_markdown(p, text: str, size: float, base_bold: bool = False):
         font_run(r, size, bold=(base_bold or is_bold))
 
 
-def build_docx():
+def find_libreoffice():
+    executable = shutil.which("libreoffice") or shutil.which("soffice")
+    if executable:
+        return executable
+    mac_executable = Path("/Applications/LibreOffice.app/Contents/MacOS/soffice")
+    if mac_executable.is_file():
+        return str(mac_executable)
+    return None
+
+
+def build_pdf(require_pdf=False):
+    soffice = find_libreoffice()
+    if not soffice:
+        # A previous build's PDF must not appear to match the new DOCX.
+        PDF_PATH.unlink(missing_ok=True)
+        message = "LibreOffice not found. Install it to generate PDF (macOS: brew install --cask libreoffice)."
+        if require_pdf:
+            raise SystemExit(message)
+        print(f"PDF skipped: {message}")
+        return
+
+    PDF_PATH.unlink(missing_ok=True)
+    # Isolate the conversion from any open LibreOffice session and stale outputs.
+    with tempfile.TemporaryDirectory(prefix="resume-pdf-") as temporary:
+        conversion_dir = Path(temporary)
+        profile = (conversion_dir / "profile").as_uri()
+        try:
+            result = subprocess.run(
+                [soffice, f"-env:UserInstallation={profile}", "--headless",
+                 "--convert-to", "pdf", "--outdir", str(conversion_dir), str(DOCX_PATH)],
+                check=True,
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
+        except (OSError, subprocess.SubprocessError) as error:
+            details = getattr(error, "stderr", None) or str(error)
+            raise SystemExit(f"PDF conversion failed: {details}") from error
+        generated = conversion_dir / f"{DOCX_PATH.stem}.pdf"
+        if not generated.is_file() or generated.stat().st_size == 0:
+            raise SystemExit(f"LibreOffice produced no PDF.\n{result.stdout}\n{result.stderr}")
+        if not generated.read_bytes().startswith(b"%PDF-"):
+            raise SystemExit("LibreOffice output is not a PDF file.")
+        shutil.move(str(generated), PDF_PATH)
+    print(f"Wrote {PDF_PATH}")
+
+
+def build_docx(require_pdf=False):
     lines = MASTER.read_text(encoding="utf-8").splitlines()
     doc = Document()
     sec = doc.sections[0]
@@ -190,20 +239,11 @@ def build_docx():
     doc.save(DOCX_PATH)
     print(f"Wrote {DOCX_PATH}")
 
-    soffice = shutil.which("libreoffice") or shutil.which("soffice")
-    if soffice:
-        subprocess.run(
-            [soffice, "--headless", "--convert-to", "pdf", "--outdir", str(OUTPUT), str(DOCX_PATH)],
-            check=False,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-        generated = OUTPUT / f"{DOCX_PATH.stem}.pdf"
-        if generated.exists():
-            if generated != PDF_PATH:
-                generated.replace(PDF_PATH)
-            print(f"Wrote {PDF_PATH}")
+    build_pdf(require_pdf=require_pdf)
 
 
 if __name__ == "__main__":
-    build_docx()
+    parser = argparse.ArgumentParser(description="Build the canonical resume as DOCX and optionally PDF.")
+    parser.add_argument("--require-pdf", action="store_true", help="Fail if PDF generation is unavailable.")
+    args = parser.parse_args()
+    build_docx(require_pdf=args.require_pdf)
